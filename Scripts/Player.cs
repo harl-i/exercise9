@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int _health;
+    [SerializeField] private int _maxHealth;
 
     private Animator _animator;
     private int _currentHealth;
@@ -20,13 +20,13 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _currentHealth = _health;
+        _currentHealth = _maxHealth;
     }
 
     public void ApplyDamage(int damage)
     {
         _currentHealth -= damage;
-        HealthChange.Invoke(_currentHealth, _health);
+        HealthChange.Invoke(_currentHealth, _maxHealth);
         _animator.SetTrigger(AnimatorPlayerController.Params.Damage);
 
         if (_currentHealth <= 0)
@@ -36,9 +36,9 @@ public class Player : MonoBehaviour
     public void ApplyHeal(int heal)
     {
         _currentHealth += heal;
-        HealthChange.Invoke(_currentHealth, _health);
+        HealthChange.Invoke(_currentHealth, _maxHealth);
 
-        if (_currentHealth >= _health)
-            _currentHealth = _health;
+        if (_currentHealth >= _maxHealth)
+            _currentHealth = _maxHealth;
     }
 }
