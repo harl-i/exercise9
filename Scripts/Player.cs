@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private int _currentHealth;
 
-    public event UnityAction<int, int> HealthChange;
+    public event UnityAction<int, int> HealthChanged;
 
     private void Awake()
     {
@@ -25,20 +25,16 @@ public class Player : MonoBehaviour
 
     public void ApplyDamage(int damage)
     {
-        _currentHealth -= damage;
-        HealthChange.Invoke(_currentHealth, _maxHealth);
-        _animator.SetTrigger(AnimatorPlayerController.Params.Damage);
+        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
 
-        if (_currentHealth <= 0)
-            _currentHealth = 0;
+        HealthChanged.Invoke(_currentHealth, _maxHealth);
+        _animator.SetTrigger(AnimatorPlayerController.Params.Damage);
     }
 
     public void ApplyHeal(int heal)
     {
-        _currentHealth += heal;
-        HealthChange.Invoke(_currentHealth, _maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth + heal, 0, _maxHealth);
 
-        if (_currentHealth >= _maxHealth)
-            _currentHealth = _maxHealth;
+        HealthChanged.Invoke(_currentHealth, _maxHealth);
     }
 }
