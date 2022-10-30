@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
 
-        HealthChanged.Invoke(_currentHealth, _maxHealth);
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
         _animator.SetTrigger(AnimatorPlayerController.Params.Damage);
     }
 
@@ -35,6 +35,6 @@ public class Player : MonoBehaviour
     {
         _currentHealth = Mathf.Clamp(_currentHealth + heal, 0, _maxHealth);
 
-        HealthChanged.Invoke(_currentHealth, _maxHealth);
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
     }
 }
